@@ -9,12 +9,20 @@ def fit_perceptron(X_train, y_train):
     #initializes the set w to an array of 0s to the same dimensions as an input
     w = np.zeros(np.shape(X_train[0]))
     w_target = np.array(w)
+    smallest_error = np.shape(X_train[1])
     max_epochs = 5000
     for i in range(0,max_epochs):
         if(errorPer(X_train,y_train,w)==0):
             return w_target
         else:
-            return w_target
+            #needs to find the first misclassified point and update w by it
+            for i,x in enumerate(X_train):
+                if(pred(x,w)!=y_train[i]):
+                    w = w + y_train[i]*np.matmul(w.transpose(),x)
+
+            #need to find a way to make this stopin the case that the data is not lineearly seperable, 
+            #additionally, i need to figure out how tokeep track of the current best w_target so far and 
+            #keep it stored bc not every update may be beneficial 
 
     return w_target
 
@@ -22,21 +30,23 @@ def fit_perceptron(X_train, y_train):
 def errorPer(X_train,y_train,w):
     #Add implementation here 
     #outputs the avg number of error points output by w!
-    return 0
-    
-
-def confMatrix(X_train,y_train,w):
-    #Add implementation here 
     numerrors =0
-    for x,i in enumerate(X_train):
+    for i,x in enumerate(X_train):
+        print(x)
         if(pred(x,w)!=y_train[i]):
             numerrors+=1
 
     print(numerrors)
-    print(np.size(y_train)[0])
-    avgerrors = numerrors / np.size[y_train][0]
+    print(np.size(y_train))
+    avgerrors = numerrors / np.size(y_train)
     print(avgerrors)
-    return 
+    return avgerrors
+    
+
+def confMatrix(X_train,y_train,w):
+    #Add implementation here 
+    
+    return 0
 
 def pred(X_i,w):
     #Add implementation here
@@ -75,15 +85,16 @@ test_Part1()"""
 
 
 if __name__ == "__main__":
-    """
+    
     from sklearn.datasets import load_iris
     X_train, y_train = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(X_train[50:],y_train[50:],test_size=0.2)
-    fit_perceptron(X_train,y_train)
-    """
+   # fit_perceptron(X_train,y_train)
+    
     a = np.array([1,2.2,3,4])
-    b = np.array([2,1.1,-10,1])
-    print(a)
-    print(b)
-    print(pred(a,b))
+    #b = np.array([2,1.1,-10,1])
+    #print(a)
+    #print(b)
+    #print(pred(a,b))
+    errorPer(X_train,y_train,a)
 
