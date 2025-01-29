@@ -7,17 +7,31 @@ def fit_perceptron(X_train, y_train):
     #Add implementation here 
     #initializes the set w to an array of 0s to the same dimensions as an input
     w = np.zeros(np.shape(X_train[0]))
-    
-"""
+    w_target = w
+    max_epochs = 5000
+    for i in range(0,max_epochs):
+        if(errorPer(X_train,y_train,w)==0):
+            return w_target
+        else:
+
+    return w_target
+
+
 def errorPer(X_train,y_train,w):
     #Add implementation here 
+    #outputs the avg number of error points output by w!
+    
 
 def confMatrix(X_train,y_train,w):
     #Add implementation here 
 
 def pred(X_i,w):
     #Add implementation here
+    #outputs the output of the perceptron models prediction of X_i's label based on w
+    
+    #return y = sign(wTranspose * X_i)
 
+"""
 def test_SciKit(X_train, X_test, Y_train, Y_test):
     #Add implementation here 
 
@@ -47,8 +61,10 @@ def test_Part1():
 
 test_Part1()"""
 
+
 if __name__ == "__main__":
     from sklearn.datasets import load_iris
     X_train, y_train = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(X_train[50:],y_train[50:],test_size=0.2)
     fit_perceptron(X_train,y_train)
+
