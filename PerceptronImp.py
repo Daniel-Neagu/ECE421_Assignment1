@@ -8,54 +8,64 @@ def fit_perceptron(X_train, y_train):
     #Add implementation here 
     #initializes the set w to an array of 0s to the same dimensions as an input
     w = np.zeros(np.shape(X_train[0]))
+    #initializes the best current version of the weights so far
     w_target = np.array(w)
     
+    #sets the max number of epochs to 5000
     max_epochs = 5000
+    #trains the model
     for epoch in range(0,max_epochs):
-        #print(f"Epoch #{epoch}")
+        #checks for if we've achieved 0 error
         if(errorPer(X_train,y_train,w_target)==0):
             return w_target
+        #checks for the first first misclassified point and update w by it
         else:
-            #needs to find the first misclassified point and update w by it
             for i,x in enumerate(X_train):
-                #print(f"Epoch #{epoch}: real value #{i}: {y_train[i]} prediction: {pred(x,w)}")
+                #updates w by the first misclassified point it sees
                 if(pred(x,w)!=y_train[i]):
                     #print(f"Epoch #{epoch}: misclassified point at: Index [{i}]")
                     #print(f"Epoch #{epoch}: Updating w from {w} to {w + y_train[i]*x}")
                     w = w + y_train[i]*x
                     break
-
+            #if the update made the model more accurate, we take the updated value of w for our current best fit of w_target
             if(errorPer(X_train,y_train,w_target)>errorPer(X_train,y_train,w)):
                 print(f"Epoch #{epoch} improved w* from {w_target} to {w}, error: {errorPer(X_train,y_train,w_target)} to {errorPer(X_train,y_train,w)}")
                 w_target = w
 
-            #need to find a way to make this stopin the case that the data is not lineearly seperable, 
-            #additionally, i need to figure out how tokeep track of the current best w_target so far and 
-            #keep it stored bc not every update may be beneficial 
-
+    #returns the best fit after 5000 iterations of calling PLA and updating our best weights
     print(f"training done: average error: {errorPer(X_train,y_train,w_target)}")
     return w_target
 
 
 def errorPer(X_train,y_train,w):
     #Add implementation here 
-    #outputs the avg number of error points output by w!
+    #outputs the avg number of error points output by wT*x!
+    
+    #iterates through all the data points
+    #and checks whether or not our weights correctly classifh them all
     numerrors =0
     for i,x in enumerate(X_train):
         if(pred(x,w)!=y_train[i]):
             numerrors+=1
+    #computs the average number of errors
     avgerrors = numerrors / np.size(y_train)
 
+    #returns the avg errors
     return avgerrors
     
 
 def confMatrix(X_train,y_train,w):
     #Add implementation here 
+    #creates and outputs the confMatrix
     outputMatrix = np.zeros((2,2))
+    #checks through the data points for which points were false/true positive/negatives
+    #and adds them to the output confMatrix outputMatrix respectively
     for i,x in enumerate(X_train):
         index1 = int((y_train[i]+1)/2)
         index2 = int((np.sign(np.matmul(w.transpose(),x))+1)/2)
         outputMatrix[index1][index2] +=1
+
+    #outputs the confMatrix
     return outputMatrix
 
 def pred(X_i,w):
