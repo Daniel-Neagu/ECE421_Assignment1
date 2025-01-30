@@ -76,7 +76,19 @@ def pred(X_i,w):
 
 def test_SciKit(X_train, X_test, Y_train, Y_test):
     #Add implementation here
-    return 0 
+
+    #creating the perceptron model, ensuring it iterates 5000 times
+    perceptron = Perceptron(n_iter_no_change=5000,max_iter=5000,tol=1e-3, random_state=0)
+
+    #fits the model
+    perceptron.fit(X_train, Y_train)
+
+    #obtains the model's prediction on the test set
+    Y_pred = perceptron.predict(X_test)
+    
+    #returns a 2by2 confusion matrix of integer values
+    confMatrix = confusion_matrix(Y_test,Y_pred)
+    return confMatrix
 
 def test_Part1():
     from sklearn.datasets import load_iris
