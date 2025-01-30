@@ -9,21 +9,31 @@ def fit_perceptron(X_train, y_train):
     #initializes the set w to an array of 0s to the same dimensions as an input
     w = np.zeros(np.shape(X_train[0]))
     w_target = np.array(w)
-    smallest_error = np.shape(X_train[1])
+    
     max_epochs = 5000
-    for i in range(0,max_epochs):
-        if(errorPer(X_train,y_train,w)==0):
+    for epoch in range(0,max_epochs):
+        #print(f"Epoch #{epoch}")
+        if(errorPer(X_train,y_train,w_target)==0):
             return w_target
         else:
             #needs to find the first misclassified point and update w by it
             for i,x in enumerate(X_train):
+                #print(f"Epoch #{epoch}: real value #{i}: {y_train[i]} prediction: {pred(x,w)}")
                 if(pred(x,w)!=y_train[i]):
-                    w = w + y_train[i]*np.matmul(w.transpose(),x)
+                    #print(f"Epoch #{epoch}: misclassified point at: Index [{i}]")
+                    #print(f"Epoch #{epoch}: Updating w from {w} to {w + y_train[i]*x}")
+                    w = w + y_train[i]*x
+                    break
+
+            if(errorPer(X_train,y_train,w_target)>errorPer(X_train,y_train,w)):
+                print(f"Epoch #{epoch} improved w* from {w_target} to {w}, error: {errorPer(X_train,y_train,w_target)} to {errorPer(X_train,y_train,w)}")
+                w_target = w
 
             #need to find a way to make this stopin the case that the data is not lineearly seperable, 
             #additionally, i need to figure out how tokeep track of the current best w_target so far and 
             #keep it stored bc not every update may be beneficial 
 
+    print(f"training done: average error: {errorPer(X_train,y_train,w_target)}")
     return w_target
 
 
@@ -32,14 +42,10 @@ def errorPer(X_train,y_train,w):
     #outputs the avg number of error points output by w!
     numerrors =0
     for i,x in enumerate(X_train):
-        print(x)
         if(pred(x,w)!=y_train[i]):
             numerrors+=1
-
-    print(numerrors)
-    print(np.size(y_train))
     avgerrors = numerrors / np.size(y_train)
-    print(avgerrors)
+
     return avgerrors
     
 
@@ -89,12 +95,18 @@ if __name__ == "__main__":
     from sklearn.datasets import load_iris
     X_train, y_train = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(X_train[50:],y_train[50:],test_size=0.2)
-   # fit_perceptron(X_train,y_train)
+    #Set the labels to +1 and -1
+    y_train[y_train == 1] = 1
+    y_train[y_train != 1] = -1
+    y_test[y_test == 1] = 1
+    y_test[y_test != 1] = -1
+    fit_perceptron(X_train,y_train)
     
-    a = np.array([1,2.2,3,4])
+    #a = np.array([1,2.2,3,4])
     #b = np.array([2,1.1,-10,1])
     #print(a)
     #print(b)
     #print(pred(a,b))
-    errorPer(X_train,y_train,a)
+    
+    #errorPer(X_train,y_train,a)
 
