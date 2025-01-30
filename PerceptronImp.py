@@ -51,17 +51,22 @@ def errorPer(X_train,y_train,w):
 
 def confMatrix(X_train,y_train,w):
     #Add implementation here 
-    
-    return 0
+    outputMatrix = np.zeros((2,2))
+    for i,x in enumerate(X_train):
+        index1 = int((y_train[i]+1)/2)
+        index2 = int((np.sign(np.matmul(w.transpose(),x))+1)/2)
+        outputMatrix[index1][index2] +=1
+    return outputMatrix
 
 def pred(X_i,w):
     #Add implementation here
     #outputs the output of the perceptron models prediction of X_i's label based on w
     return np.sign(np.matmul(w.transpose(),X_i))
 
-"""
+
 def test_SciKit(X_train, X_test, Y_train, Y_test):
-    #Add implementation here 
+    #Add implementation here
+    return 0 
 
 def test_Part1():
     from sklearn.datasets import load_iris
@@ -87,9 +92,9 @@ def test_Part1():
     print("Confusion Matrix from Part 1b is:",sciKit)
     
 
-test_Part1()"""
+test_Part1()
 
-
+"""
 if __name__ == "__main__":
     
     from sklearn.datasets import load_iris
@@ -101,12 +106,5 @@ if __name__ == "__main__":
     y_test[y_test == 1] = 1
     y_test[y_test != 1] = -1
     fit_perceptron(X_train,y_train)
-    
-    #a = np.array([1,2.2,3,4])
-    #b = np.array([2,1.1,-10,1])
-    #print(a)
-    #print(b)
-    #print(pred(a,b))
-    
-    #errorPer(X_train,y_train,a)
+"""
 
