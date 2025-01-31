@@ -40,6 +40,16 @@ def pred(X_train,w):
 def test_SciKit(X_train, X_test, Y_train, Y_test):
     #Add implementation here
     #calculates the mean squared error using scikit 
+    #initializes the linear regression model
+    lin_regression_model = linear_model.LinearRegression()
+    #trains the model on the input training data
+    lin_regression_model.fit(X_train, Y_train) 
+
+    #predicts the output of the input testing data
+    Y_pred = lin_regression_model.predict(X_test)
+    #computes the MSA between the true Y_test values and the predicted Y_test values
+    MSE = mean_squared_error(Y_test, Y_pred)
+    return MSE
 
 
     return 0
