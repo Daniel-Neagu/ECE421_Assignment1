@@ -89,17 +89,5 @@ subtestFn()
 print ('------------------testFn_Part2-------------------')
 testFn_Part2()
 
-
-"""
-
-
-x = np.array([[1, 2], [2, 4], [3, 6], [4, 8]])
-print(np.shape(x))
-y = np.ones((np.shape(x)[0],1))
-print(y)
-
-print(f"w_target {fit_LinRegr(x,y)}")
-
-
-c = np.append(y,x, axis=1)
-print(c)"""
+#the performance of the scikit learn model compared to the fit_LinRegr model:
+#the models are out are very similar and produce the same mean squared error values
